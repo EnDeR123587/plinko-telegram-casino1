@@ -1,28 +1,17 @@
-// Простейший пример physics.js с Matter.js
-const { Engine, Render, Runner, Bodies, World } = Matter;
+// Минимальная заглушка для Matter.js
+const Engine = Matter.Engine,
+      Render = Matter.Render,
+      World = Matter.World,
+      Bodies = Matter.Bodies;
 
 const engine = Engine.create();
-const world = engine.world;
-
-const canvas = document.getElementById("game");
 const render = Render.create({
-    canvas: canvas,
-    engine: engine,
-    options: { width: 400, height: 500, wireframes: false, background: "#111" }
+  element: document.getElementById('game'),
+  engine: engine,
+  options: { width: 300, height: 400, wireframes: false, background: '#06061a' }
 });
 
+const ground = Bodies.rectangle(150, 390, 300, 20, { isStatic: true });
+World.add(engine.world, [ground]);
+Engine.run(engine);
 Render.run(render);
-const runner = Runner.create();
-Runner.run(runner, engine);
-
-// Пол
-const ground = Bodies.rectangle(200, 490, 400, 20, { isStatic: true });
-World.add(world, [ground]);
-
-// Шарик
-function dropBall() {
-    const ball = Bodies.circle(200, 50, 10, { restitution: 0.5 });
-    World.add(world, [ball]);
-}
-
-canvas.addEventListener("click", dropBall);
